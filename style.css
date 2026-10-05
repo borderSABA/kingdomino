@@ -12,3 +12,27 @@
 
 /* v0.1.7: board viewing and placement score preview */
 .player-card{cursor:default}.player-card.viewing{box-shadow:inset 0 0 0 2px #7fb0ff}.player-card-main{display:flex;justify-content:space-between;gap:8px;align-items:center}.view-board-btn{width:100%;margin-top:7px;border:1px solid #435d80;background:#24344d;color:#fff;border-radius:8px;padding:6px 8px;font-size:12px;font-weight:700;cursor:pointer}.player-card.viewing .view-board-btn{background:#4678db}.board-view-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:30px}.place-score-preview{margin-top:6px;padding:8px 10px;border-radius:10px;background:#0f1927;border:1px solid #355071;font-size:14px}.place-score-preview b{font-size:16px}.spectate-note{margin-top:8px;padding:8px 10px;border-radius:10px;background:#121c2a;border:1px solid #34465f;font-size:13px;opacity:.85}@media(max-width:850px){.player-card-main{display:block}.view-board-btn{padding:5px 6px;font-size:11px}.board-view-head{align-items:flex-start}.place-score-preview{font-size:11px;padding:6px 8px}.place-score-preview b{font-size:13px}.spectate-note{font-size:11px}}
+
+/* v0.1.8: exit in topbar + persistent player board previews */
+.side-with-boards{display:block;overflow-y:auto}
+.player-block{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #31425a}
+.player-block:last-child{border-bottom:0;margin-bottom:0}
+.player-block.self-block{order:-1}
+.player-block .player-card{margin-bottom:6px}
+.mini-board-wrap{display:block;width:100%;border:1px solid #3c506c;background:#101827;border-radius:10px;padding:6px;cursor:pointer}
+.mini-board-wrap.viewing{border-color:#79aaff;box-shadow:0 0 0 2px #4678db55 inset}
+.mini-board{display:grid;gap:2px;aspect-ratio:1/1;width:100%;max-width:190px;margin:auto}
+.mini-cell{min-width:0;min-height:0;border-radius:2px;border:1px solid #ffffff12;position:relative;display:flex;align-items:center;justify-content:center;font-size:10px;overflow:hidden}
+.mini-cell.empty{background:#ffffff08}
+.mini-cell.castle{background:linear-gradient(135deg,#ddd,#999);color:#111;font-size:12px}
+.mini-crowns{position:absolute;right:1px;top:0;font-size:9px;font-weight:900;color:#fff;text-shadow:0 1px 2px #000}
+.play-topbar .mini-btn.danger{background:#8a3a45;border-color:#a34b59}
+@media(max-width:850px){
+  .side-with-boards{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;padding-bottom:5px}
+  .player-block{min-width:132px;max-width:132px;margin:0;padding:0 7px 0 0;border-bottom:0;border-right:1px solid #31425a}
+  .player-block:last-child{border-right:0}
+  .mini-board{max-width:118px}
+  .mini-board-wrap{padding:4px}
+  .mini-cell.castle{font-size:9px}
+  .mini-crowns{font-size:7px}
+}
