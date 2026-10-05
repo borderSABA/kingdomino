@@ -1,7 +1,7 @@
 'use strict';
 const GAME_ID='kingdomino';
 const GAME_NAME='KINGDOMINO';
-const APP_VERSION='v0.1.8';
+const APP_VERSION='v0.1.9';
 const WORKER_ORIGIN='https://kingdomino-online.naitoryo7110.workers.dev';
 const COMMON_PLAYER_NAME_KEY='boardgamePlayerName';
 const ROOM_IDS=['room1','room2','room3','room4'];
@@ -126,10 +126,21 @@ function renderMiniBoard(p){
   return html+'</div>';
 }
 function sidebarPlayerHtml(p,vp,m){
-  return `<section class='player-block ${p.id===m?.id?'self-block':''}'>
-    <div class='player-card ${p.id===activePlayer()?.id?'active':''} ${p.id===m?.id?'me':''} ${p.id===vp?.id?'viewing':''}'>
+  const self=p.id===m?.id;
+  if(self){
+    return `<section class='player-block self-block'>
+      <button class='player-card self-summary ${p.id===activePlayer()?.id?'active':''} me ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='自分の盤面へ戻る'>
+        <div class='player-card-main'>
+          <b>${esc(p.name)}（自分）</b>
+          <div>${p.score??0}点</div>
+        </div>
+      </button>
+    </section>`;
+  }
+  return `<section class='player-block'>
+    <div class='player-card ${p.id===activePlayer()?.id?'active':''} ${p.id===vp?.id?'viewing':''}'>
       <div class='player-card-main'>
-        <b>${esc(p.name)}${p.id===m?.id?'（自分）':''}</b>
+        <b>${esc(p.name)}</b>
         <div>${p.cpu?'CPU・':''}${p.score??0}点</div>
       </div>
     </div>
