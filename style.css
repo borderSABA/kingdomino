@@ -465,74 +465,38 @@
 }
 
 
-/* v0.1.20 authoritative smartphone: one-screen layout + drag ghost placement */
-.player-one-line{min-width:0;width:100%}
-.player-one-line b{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* v0.1.21 mobile repair: keep v0.1.19 natural layout, compact 4-player strip, drag board */
 @media(max-width:850px){
-  html,body{height:100%;overflow:hidden!important;overscroll-behavior:none!important}
-  body{position:fixed;inset:0;width:100%}
-  .play-screen{
-    height:100dvh!important;min-height:0!important;overflow:hidden!important;
-    display:flex!important;flex-direction:column!important;padding:7px!important;gap:6px!important;
-  }
-  .play-topbar{flex:0 0 48px!important;min-height:48px!important;padding:5px 8px!important;overflow:hidden!important}
-  .game-layout{
-    flex:1 1 auto!important;min-height:0!important;height:auto!important;overflow:hidden!important;
-    display:grid!important;grid-template-columns:1fr!important;
-    grid-template-rows:42px minmax(0,1fr) 322px!important;gap:6px!important;padding:0!important;
-  }
-  /* Four players always fit without horizontal scrolling. */
+  html,body{overflow-x:hidden!important}
+  body{position:static!important;height:auto!important}
+  .play-screen{height:auto!important;min-height:100dvh!important;overflow:visible!important;display:block!important;padding:7px!important}
+  .game-layout{height:auto!important;min-height:0!important;overflow:visible!important;display:flex!important;flex-direction:column!important;gap:6px!important;padding:0!important}
   .side-with-boards{
-    grid-row:1!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
-    gap:4px!important;width:100%!important;height:42px!important;min-height:42px!important;max-height:42px!important;
-    overflow:hidden!important;padding:3px!important;
+    display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:3px!important;width:100%!important;height:42px!important;min-height:42px!important;max-height:42px!important;
+    overflow:hidden!important;padding:3px!important;flex:0 0 42px!important;
   }
-  .player-block{
-    display:block!important;min-width:0!important;max-width:none!important;width:auto!important;height:34px!important;
-    margin:0!important;padding:0!important;border:0!important;overflow:hidden!important;
-  }
-  .player-card{
-    width:100%!important;height:34px!important;min-height:34px!important;margin:0!important;padding:3px 5px!important;
-    display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;overflow:hidden!important;
-  }
-  .player-card-main{display:block!important;min-width:0!important;width:100%!important;font-size:11px!important;text-align:center!important;line-height:1.1!important}
-  .player-card-main b{font-size:11px!important;font-weight:800!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .player-block{display:block!important;min-width:0!important;max-width:none!important;width:auto!important;height:34px!important;margin:0!important;padding:0!important;border:0!important;overflow:hidden!important}
+  .player-card{width:100%!important;height:34px!important;min-height:34px!important;margin:0!important;padding:3px 4px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;overflow:hidden!important}
+  .player-card-main{display:block!important;min-width:0!important;width:100%!important;text-align:center!important;line-height:1.1!important}
+  .player-card-main b{display:block!important;font-size:10.5px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .player-card-main div{display:none!important}
   .mini-board-wrap{display:none!important}
-
-  .center{
-    grid-row:2!important;min-height:0!important;height:auto!important;overflow:hidden!important;
-    display:flex!important;flex-direction:column!important;padding:6px 7px!important;
-  }
-  .center .status{flex:0 0 18px!important;height:18px!important;font-size:11px!important;margin:0!important;line-height:18px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important}
-  .board-view-head{flex:0 0 12px!important;height:12px!important;min-height:12px!important;font-size:8px!important;line-height:12px!important;overflow:hidden!important}
-  .board-wrap{flex:1 1 auto!important;min-height:0!important;height:auto!important;overflow:hidden!important;padding:1px 0!important}
-  .board{
-    width:min(61.2vw,100%)!important;height:auto!important;max-width:292px!important;max-height:100%!important;
-    aspect-ratio:1/1!important;margin:auto!important;touch-action:none!important;user-select:none!important;-webkit-user-select:none!important;
-  }
-  .placement-actions{flex:0 0 38px!important;height:38px!important;margin:2px 0 0!important;align-items:center!important}
-  .placement-actions .btn{padding:6px 9px!important;font-size:12px!important}
-  .place-hint,.frame-note{display:none!important}
-  .place-score-preview{flex:0 0 26px!important;height:26px!important;min-height:26px!important;margin:2px 0 0!important;padding:4px 7px!important;font-size:9px!important;line-height:16px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important}
-  .spectate-note{font-size:9px!important;line-height:1.2!important;margin-top:2px!important;max-height:24px!important;overflow:hidden!important}
-
-  /* Keep Current / Next side-by-side and fully visible inside the fixed screen. */
-  .tiles{
-    grid-row:3!important;height:322px!important;min-height:322px!important;max-height:322px!important;
-    overflow:hidden!important;padding:7px!important;
-  }
-  .tiles .rows{height:100%!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important}
-  .tiles .rows>div{min-width:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important}
-  .tiles b{flex:0 0 20px!important;height:20px!important;font-size:12px!important;line-height:18px!important;margin:0 0 3px!important}
-  .tile-row{flex:1 1 auto!important;min-height:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important}
-  .domino{height:100%!important;min-height:0!important;display:grid!important;grid-template-rows:1fr 1fr 31px!important;overflow:hidden!important}
-  .half{height:auto!important;min-height:0!important;font-size:15px!important}
-  .claimtag{height:31px!important;min-height:31px!important;max-height:31px!important;padding:2px 1px!important;font-size:8px!important}
+  .center{overflow:visible!important;height:auto!important;min-height:0!important;display:flex!important;flex-direction:column!important;padding:6px 7px!important}
+  .board-wrap{overflow:visible!important;flex:none!important;height:auto!important;min-height:0!important;padding:2px 0!important}
+  .board{width:61.2vw!important;height:61.2vw!important;max-width:292px!important;max-height:292px!important;aspect-ratio:1/1!important;margin:2px auto 4px!important;gap:2px!important;touch-action:none!important;user-select:none!important;-webkit-user-select:none!important}
+  .board .cell{width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;aspect-ratio:1/1!important}
+  .tiles{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;padding:6px!important}
+  .tiles .rows{height:auto!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important}
+  .tiles .rows>div{min-width:0!important;overflow:visible!important;display:block!important}
+  .tile-row{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2px!important;height:auto!important}
+  .domino{height:auto!important;min-height:0!important;display:block!important;overflow:hidden!important}
+  .half{height:56px!important;min-height:56px!important}
+  .claimtag{height:30px!important;min-height:30px!important;max-height:30px!important;overflow:hidden!important}
 }
 @media(max-width:380px){
-  .game-layout{grid-template-rows:40px minmax(0,1fr) 302px!important}
-  .side-with-boards{height:40px!important;min-height:40px!important;max-height:40px!important}
-  .player-block,.player-card{height:32px!important;min-height:32px!important}
-  .player-card-main b{font-size:10px!important}
-  .tiles{height:302px!important;min-height:302px!important;max-height:302px!important}
+  .board{width:58vw!important;height:58vw!important;max-width:270px!important;max-height:270px!important}
+  .half{height:52px!important;min-height:52px!important}
+  .claimtag{height:28px!important;min-height:28px!important;max-height:28px!important}
+  .player-card-main b{font-size:9.5px!important}
 }

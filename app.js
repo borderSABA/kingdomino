@@ -1,7 +1,7 @@
 'use strict';
 const GAME_ID='kingdomino';
 const GAME_NAME='KINGDOMINO';
-const APP_VERSION='v0.1.20';
+const APP_VERSION='v0.1.21';
 const WORKER_ORIGIN='https://kingdomino-online.naitoryo7110.workers.dev';
 const COMMON_PLAYER_NAME_KEY='boardgamePlayerName';
 const ROOM_IDS=['room1','room2','room3','room4'];
@@ -131,13 +131,17 @@ function sidebarPlayerHtml(p,vp,m){
   if(self){
     return `<section class='player-block self-block'>
       <button class='player-card self-summary ${p.id===activePlayer()?.id?'active':''} me ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='自分の盤面へ戻る'>
-        <div class='player-card-main player-one-line'><b>${esc(label)}</b></div>
+        <div class='player-card-main'>
+          <b>${esc(label)}</b>
+        </div>
       </button>
     </section>`;
   }
   return `<section class='player-block'>
     <button class='player-card player-select ${p.id===activePlayer()?.id?'active':''} ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='${esc(p.name)}の盤面を見る'>
-      <div class='player-card-main player-one-line'><b>${esc(label)}</b></div>
+      <div class='player-card-main'>
+        <b>${esc(label)}</b>
+      </div>
     </button>
     <button class='mini-board-wrap ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='${esc(p.name)}の盤面を見る'>
       ${renderMiniBoard(p)}
@@ -163,12 +167,12 @@ function bindBoardPlacement(){
       if(!el||!board.contains(el))return;
       const x=+el.dataset.x,y=+el.dataset.y,key=`${x},${y}`;
       if(key===lastKey)return;
-      lastKey=key;previewPlacement(x,y);
+      lastKey=key;
+      previewPlacement(x,y);
     };
     board.addEventListener('pointerdown',e=>{
       if(e.pointerType==='mouse')return;
       dragging=true;lastKey='';
-      try{board.setPointerCapture(e.pointerId)}catch{}
       atPoint(e.clientX,e.clientY);
       e.preventDefault();
     },{passive:false});
@@ -177,7 +181,7 @@ function bindBoardPlacement(){
       atPoint(e.clientX,e.clientY);
       e.preventDefault();
     },{passive:false});
-    const finish=e=>{if(!dragging)return;dragging=false;try{board.releasePointerCapture(e.pointerId)}catch{};e.preventDefault()};
+    const finish=e=>{if(!dragging)return;dragging=false;e.preventDefault()};
     board.addEventListener('pointerup',finish,{passive:false});
     board.addEventListener('pointercancel',finish,{passive:false});
   }
