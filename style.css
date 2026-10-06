@@ -500,3 +500,202 @@
   .claimtag{height:28px!important;min-height:28px!important;max-height:28px!important}
   .player-card-main b{font-size:9.5px!important}
 }
+
+
+/* v0.1.22 authoritative mobile play layout: 100dvh, no page/player scrolling */
+@media(max-width:850px){
+  html,body,#app{width:100%;max-width:100%;}
+  body.game-playing{
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    overscroll-behavior:none!important;
+  }
+  body.game-playing #app{height:100dvh!important;overflow:hidden!important;}
+  body.game-playing .play-screen{
+    height:100dvh!important;
+    min-height:0!important;
+    max-height:100dvh!important;
+    overflow:hidden!important;
+    display:grid!important;
+    grid-template-rows:46px minmax(0,1fr)!important;
+    gap:5px!important;
+    padding:6px!important;
+  }
+  body.game-playing .play-topbar{
+    height:46px!important;
+    min-height:46px!important;
+    max-height:46px!important;
+    padding:4px 7px!important;
+    overflow:hidden!important;
+  }
+  body.game-playing .play-top-actions{width:100%!important;justify-content:flex-end!important;gap:5px!important;white-space:nowrap!important;}
+  body.game-playing .play-topbar .mini-btn{padding:5px 8px!important;font-size:12px!important;}
+  body.game-playing .game-layout{
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    overflow:hidden!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:40px minmax(0,1fr) auto!important;
+    gap:5px!important;
+    padding:0!important;
+  }
+
+  /* four player slots always fit exactly; no overlap and no horizontal scroll */
+  body.game-playing .side-with-boards{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:3px!important;
+    width:100%!important;
+    height:40px!important;
+    min-height:40px!important;
+    max-height:40px!important;
+    overflow:hidden!important;
+    padding:3px!important;
+    margin:0!important;
+  }
+  body.game-playing .player-block,
+  body.game-playing .player-block.self-block,
+  body.game-playing .player-block:not(.self-block){
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:32px!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    overflow:hidden!important;
+  }
+  body.game-playing .player-card,
+  body.game-playing .player-card.player-select{
+    box-sizing:border-box!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:32px!important;
+    min-height:32px!important;
+    margin:0!important;
+    padding:3px 3px!important;
+    border-radius:8px!important;
+    overflow:hidden!important;
+    outline:none!important;
+  }
+  body.game-playing .player-card.active{outline:none!important;box-shadow:inset 0 0 0 2px #f2cf5a!important;}
+  body.game-playing .player-card.viewing{box-shadow:inset 0 0 0 2px #7fb0ff!important;}
+  body.game-playing .player-card.active.viewing{box-shadow:inset 0 0 0 2px #f2cf5a, inset 0 0 0 4px #7fb0ff55!important;}
+  body.game-playing .player-card-main{display:block!important;width:100%!important;min-width:0!important;text-align:center!important;line-height:1!important;overflow:hidden!important;}
+  body.game-playing .player-card-main b{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    font-size:clamp(8px,2.55vw,10.5px)!important;
+    line-height:26px!important;
+  }
+  body.game-playing .mini-board-wrap{display:none!important;}
+
+  body.game-playing .center{
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    overflow:hidden!important;
+    padding:5px 7px!important;
+    display:flex!important;
+    flex-direction:column!important;
+  }
+  body.game-playing .status{flex:0 0 19px!important;height:19px!important;margin:0!important;font-size:12px!important;line-height:19px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+  body.game-playing .board-view-head{flex:0 0 12px!important;height:12px!important;min-height:12px!important;margin:0!important;padding:0!important;font-size:9px!important;line-height:12px!important;overflow:hidden!important;}
+  body.game-playing .board-wrap{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    height:auto!important;
+    overflow:hidden!important;
+    padding:1px 0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+  /* Square 9x9 board. Width limited to 61.2vw, height limited by remaining center space. */
+  body.game-playing .board{
+    width:min(61.2vw,100%)!important;
+    height:auto!important;
+    max-width:292px!important;
+    max-height:100%!important;
+    aspect-ratio:1/1!important;
+    margin:0 auto!important;
+    gap:2px!important;
+    touch-action:none!important;
+  }
+  body.game-playing .board .cell{width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;aspect-ratio:1/1!important;}
+  body.game-playing .placement-actions{
+    flex:0 0 36px!important;
+    height:36px!important;
+    min-height:36px!important;
+    margin:2px 0 0!important;
+    gap:5px!important;
+    align-items:center!important;
+  }
+  body.game-playing .placement-actions .btn{height:34px!important;padding:5px 9px!important;font-size:12px!important;}
+  body.game-playing .place-hint,
+  body.game-playing .frame-note{display:none!important;}
+  /* fixed one-line score slot so board/tile areas never jump */
+  body.game-playing .place-score-preview{
+    flex:0 0 29px!important;
+    box-sizing:border-box!important;
+    width:100%!important;
+    height:29px!important;
+    min-height:29px!important;
+    max-height:29px!important;
+    margin:2px 0 0!important;
+    padding:4px 8px!important;
+    border-radius:9px!important;
+    font-size:11px!important;
+    line-height:19px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  body.game-playing .place-score-preview b{font-size:12px!important;}
+  body.game-playing .spectate-note{flex:0 0 29px!important;height:29px!important;min-height:29px!important;max-height:29px!important;margin:2px 0 0!important;padding:4px 8px!important;font-size:10px!important;line-height:19px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;}
+
+  body.game-playing .tiles{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:hidden!important;
+    padding:5px!important;
+    margin:0!important;
+  }
+  body.game-playing .tiles .rows{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;height:auto!important;}
+  body.game-playing .tiles .rows>div{min-width:0!important;overflow:hidden!important;}
+  body.game-playing .tiles b{display:block!important;font-size:10.5px!important;line-height:13px!important;height:13px!important;margin:0 0 2px!important;overflow:hidden!important;white-space:nowrap!important;}
+  body.game-playing .tile-row{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:2px!important;height:auto!important;}
+  body.game-playing .domino{min-width:0!important;height:auto!important;overflow:hidden!important;border-radius:7px!important;}
+  body.game-playing .half{height:50px!important;min-height:50px!important;font-size:14px!important;}
+  body.game-playing .half .crowns{font-size:9px!important;}
+  body.game-playing .claimtag{
+    box-sizing:border-box!important;
+    height:27px!important;
+    min-height:27px!important;
+    max-height:27px!important;
+    padding:2px 1px!important;
+    font-size:7.5px!important;
+    line-height:11px!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+}
+@media(max-width:850px) and (max-height:680px){
+  body.game-playing .play-screen{grid-template-rows:42px minmax(0,1fr)!important;gap:4px!important;padding:4px!important;}
+  body.game-playing .play-topbar{height:42px!important;min-height:42px!important;max-height:42px!important;}
+  body.game-playing .game-layout{grid-template-rows:36px minmax(0,1fr) auto!important;gap:4px!important;}
+  body.game-playing .side-with-boards{height:36px!important;min-height:36px!important;max-height:36px!important;}
+  body.game-playing .player-block,body.game-playing .player-card,body.game-playing .player-card.player-select{height:28px!important;min-height:28px!important;}
+  body.game-playing .player-card-main b{line-height:22px!important;font-size:8.5px!important;}
+  body.game-playing .half{height:42px!important;min-height:42px!important;}
+  body.game-playing .claimtag{height:24px!important;min-height:24px!important;max-height:24px!important;}
+}
