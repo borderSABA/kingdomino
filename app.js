@@ -1,7 +1,7 @@
 'use strict';
 const GAME_ID='kingdomino';
 const GAME_NAME='KINGDOMINO';
-const APP_VERSION='v0.1.14';
+const APP_VERSION='v0.1.16';
 const WORKER_ORIGIN='https://kingdomino-online.naitoryo7110.workers.dev';
 const COMMON_PLAYER_NAME_KEY='boardgamePlayerName';
 const ROOM_IDS=['room1','room2','room3','room4'];

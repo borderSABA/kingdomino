@@ -109,3 +109,179 @@
   .place-hint,.frame-note{display:none}
 }
 \n/* v0.1.13 mobile: board -10%, larger tile area */\n@media(max-width:850px){\n  .board-wrap{padding:2px 0}\n  .board{height:90%;max-height:90%;width:auto;max-width:90%;aspect-ratio:1/1}\n  .tiles{max-height:148px;padding:6px 6px}\n  .tiles .rows{gap:6px}\n  .tiles b{font-size:11px;margin-bottom:3px}\n  .tile-row{gap:3px}\n  .domino{border-radius:7px}\n  .domino .num{font-size:9px;padding:2px 3px}\n  .half{height:31px;font-size:14px}\n  .half .crowns{font-size:10px;right:2px;top:1px}\n  .claimtag{min-height:15px;padding:2px 1px;font-size:8px;line-height:1.05}\n}\n@media(max-width:850px) and (max-height:720px){\n  .board{height:90%;max-height:90%;max-width:90%}\n  .tiles{max-height:116px;padding:4px 5px}\n  .tiles b{font-size:9px;margin-bottom:2px}\n  .tile-row{gap:2px}\n  .half{height:24px;font-size:11px}\n  .domino .num{font-size:8px}\n  .claimtag{display:block;min-height:12px;font-size:7px;padding:1px}\n}\n
+
+/* v0.1.15 mobile: vertical scroll + large readable tile rows */
+@media(max-width:850px){
+  body{overflow-y:auto}
+  .play-screen{
+    height:auto!important;
+    min-height:100dvh;
+    overflow:visible!important;
+  }
+  .play-screen .game-layout{
+    display:flex!important;
+    flex-direction:column!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+  .side-with-boards{
+    flex:0 0 auto!important;
+    max-height:50px!important;
+  }
+  .center{
+    flex:0 0 auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+  .board-wrap{
+    flex:none!important;
+    width:100%!important;
+    min-height:0!important;
+    height:auto!important;
+    overflow:hidden!important;
+    padding:4px 0 6px!important;
+  }
+  .board{
+    width:90vw!important;
+    max-width:430px!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:1/1!important;
+  }
+  .tiles{
+    flex:0 0 auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+    padding:8px!important;
+  }
+  .tiles .rows{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .tiles .rows>div{min-width:0!important}
+  .tiles b{
+    display:block!important;
+    font-size:13px!important;
+    margin-bottom:5px!important;
+    line-height:1.2!important;
+  }
+  .tile-row{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:5px!important;
+  }
+  .domino{
+    border-radius:9px!important;
+    min-width:0!important;
+  }
+  .domino .num{
+    font-size:10px!important;
+    padding:2px 4px!important;
+    left:3px!important;
+    top:2px!important;
+  }
+  .half{
+    height:45px!important;
+    font-size:18px!important;
+  }
+  .half .crowns{
+    font-size:12px!important;
+    right:3px!important;
+    top:2px!important;
+  }
+  .claimtag{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    min-height:32px!important;
+    padding:4px 3px!important;
+    font-size:10px!important;
+    line-height:1.15!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    overflow-wrap:anywhere!important;
+    word-break:break-word!important;
+  }
+}
+@media(max-width:380px){
+  .board{width:88vw!important}
+  .tile-row{gap:4px!important}
+  .half{height:41px!important;font-size:16px!important}
+  .claimtag{min-height:30px!important;font-size:9px!important}
+}
+
+
+/* v0.1.16 mobile: keep current/next side-by-side, make tiles much taller */
+@media(max-width:850px){
+  /* Keep the board at the same fully-visible size as before. */
+  .board{
+    width:90vw!important;
+    max-width:430px!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:1/1!important;
+  }
+  /* Current / Next remain left-right split. */
+  .tiles{
+    max-height:none!important;
+    overflow:visible!important;
+    padding:8px!important;
+  }
+  .tiles .rows{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:8px!important;
+    align-items:start!important;
+  }
+  .tiles .rows>div{min-width:0!important}
+  .tiles b{
+    font-size:12px!important;
+    margin-bottom:4px!important;
+    line-height:1.15!important;
+  }
+  .tile-row{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:3px!important;
+  }
+  .domino{
+    min-width:0!important;
+    border-radius:8px!important;
+  }
+  .domino .num{
+    font-size:9px!important;
+    padding:2px 3px!important;
+    left:2px!important;
+    top:2px!important;
+  }
+  /* About twice the v0.1.14 tile height. */
+  .half{
+    height:62px!important;
+    font-size:17px!important;
+  }
+  .half .crowns{
+    font-size:11px!important;
+    right:2px!important;
+    top:2px!important;
+  }
+  .claimtag{
+    display:block!important;
+    min-height:20px!important;
+    padding:4px 2px!important;
+    font-size:9px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+  }
+}
+@media(max-width:380px){
+  .board{width:88vw!important}
+  .tiles .rows{gap:6px!important}
+  .tile-row{gap:2px!important}
+  .half{height:58px!important;font-size:16px!important}
+  .claimtag{min-height:19px!important;font-size:8px!important}
+}
