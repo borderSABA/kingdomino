@@ -285,3 +285,50 @@
   .half{height:58px!important;font-size:16px!important}
   .claimtag{min-height:19px!important;font-size:8px!important}
 }
+
+
+/* v0.1.17 mobile: board 20% smaller, keep tile frame size, split king marker to second line */
+.claim-name{display:inline;min-width:0}
+.claim-king{display:inline;margin-left:.25em}
+@media(max-width:850px){
+  /* Keep the surrounding board area unchanged, shrink only the board itself by about 20%. */
+  .board-wrap{min-height:inherit!important;}
+  .board{
+    width:72vw!important;
+    max-width:344px!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:1/1!important;
+    margin:auto!important;
+  }
+  .claimtag{
+    min-height:34px!important;
+    padding:3px 2px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:1px!important;
+    overflow:hidden!important;
+    white-space:normal!important;
+    text-overflow:clip!important;
+  }
+  .claim-name{
+    display:block!important;
+    width:100%!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    line-height:1.05!important;
+  }
+  .claim-king{
+    display:block!important;
+    margin:0!important;
+    font-size:1.08em!important;
+    line-height:1!important;
+    font-weight:800!important;
+  }
+}
+@media(max-width:380px){
+  .board{width:70vw!important;max-width:330px!important}
+}

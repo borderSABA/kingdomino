@@ -1,7 +1,7 @@
 'use strict';
 const GAME_ID='kingdomino';
 const GAME_NAME='KINGDOMINO';
-const APP_VERSION='v0.1.16';
+const APP_VERSION='v0.1.17';
 const WORKER_ORIGIN='https://kingdomino-online.naitoryo7110.workers.dev';
 const COMMON_PLAYER_NAME_KEY='boardgamePlayerName';
 const ROOM_IDS=['room1','room2','room3','room4'];
@@ -168,7 +168,16 @@ function tokenDisplayLabel(token,player){
   return player.name;
 }
 
-function tileHtml(t,rowType){const claimed=t.claimedBy;const owner=claimed?state.tokens?.find(k=>k.id===claimed):null;const pl=owner?state.players.find(p=>p.id===owner.playerId):null;const ownerLabel=pl?tokenDisplayLabel(owner,pl):null;const initialClickable=rowType==='current'&&state.phase==='claim_initial'&&canAct()&&!claimed;const clickable=(rowType==='next'&&canAct()&&state.turnAction==='claim'&&!claimed)||initialClickable;const attr=initialClickable?`data-claim-initial='${t.tile.no}'`:(clickable?`data-claim='${t.tile.no}'`:'');return `<div class='domino ${claimed?'claimed':''} ${clickable?'claimable':''}' ${attr}><span class='num'>#${t.tile.no}</span><div class='half ${t.tile.a.terrain}'>${TERRAIN_EMOJI[t.tile.a.terrain]}${t.tile.a.crowns?`<span class='crowns'>${'👑'.repeat(t.tile.a.crowns)}</span>`:''}</div><div class='half ${t.tile.b.terrain}'>${TERRAIN_EMOJI[t.tile.b.terrain]}${t.tile.b.crowns?`<span class='crowns'>${'👑'.repeat(t.tile.b.crowns)}</span>`:''}</div><div class='claimtag'>${ownerLabel?esc(ownerLabel):'未選択'}</div></div>`}
+function tileOwnerHtml(token,player){
+  if(!token||!player)return '未選択';
+  if(state?.players?.length===2){
+    const n=(Number(token.index)||0)+1;
+    return `<span class='claim-name'>${esc(player.name)}</span><span class='claim-king'>${n===1?'①':'②'}</span>`;
+  }
+  return `<span class='claim-name'>${esc(player.name)}</span>`;
+}
+
+function tileHtml(t,rowType){const claimed=t.claimedBy;const owner=claimed?state.tokens?.find(k=>k.id===claimed):null;const pl=owner?state.players.find(p=>p.id===owner.playerId):null;const ownerHtml=pl?tileOwnerHtml(owner,pl):'未選択';const initialClickable=rowType==='current'&&state.phase==='claim_initial'&&canAct()&&!claimed;const clickable=(rowType==='next'&&canAct()&&state.turnAction==='claim'&&!claimed)||initialClickable;const attr=initialClickable?`data-claim-initial='${t.tile.no}'`:(clickable?`data-claim='${t.tile.no}'`:'');return `<div class='domino ${claimed?'claimed':''} ${clickable?'claimable':''}' ${attr}><span class='num'>#${t.tile.no}</span><div class='half ${t.tile.a.terrain}'>${TERRAIN_EMOJI[t.tile.a.terrain]}${t.tile.a.crowns?`<span class='crowns'>${'👑'.repeat(t.tile.a.crowns)}</span>`:''}</div><div class='half ${t.tile.b.terrain}'>${TERRAIN_EMOJI[t.tile.b.terrain]}${t.tile.b.crowns?`<span class='crowns'>${'👑'.repeat(t.tile.b.crowns)}</span>`:''}</div><div class='claimtag'>${ownerHtml}</div></div>`}
 function canAct(){const m=me();if(!m)return false;const tok=state.tokens?.find(t=>t.id===state.activeTokenId);return !!tok&&tok.playerId===m.id&&!m.cpu}
 function activePlayer(){const t=state.tokens?.find(x=>x.id===state.activeTokenId);return t?state.players.find(p=>p.id===t.playerId):null}
 function activeTokenLabel(){const t=state.tokens?.find(x=>x.id===state.activeTokenId);const p=t?state.players.find(x=>x.id===t.playerId):null;return tokenDisplayLabel(t,p)}
