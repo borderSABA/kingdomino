@@ -332,3 +332,70 @@
 @media(max-width:380px){
   .board{width:70vw!important;max-width:330px!important}
 }
+
+
+/* v0.1.18 mobile UI balance: keep 9x9, board 85%, compact board info, tiles -10% */
+@media(max-width:850px){
+  /* Keep the 9x9 board structure; shrink only the rendered board to 85% of v0.1.17. */
+  .board{
+    width:61.2vw!important;
+    max-width:292px!important;
+    height:auto!important;
+    max-height:none!important;
+    aspect-ratio:1/1!important;
+    margin:auto!important;
+  }
+  /* Compact the "表示：SABA 5×5" row without removing it. */
+  .board-view-head{
+    min-height:13px!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0 1px!important;
+    gap:3px!important;
+    line-height:1.05!important;
+    font-size:9px!important;
+  }
+  .board-view-head .muted{
+    line-height:1.05!important;
+    margin:0!important;
+  }
+  .board-view-head .mini-btn{
+    padding:2px 5px!important;
+    font-size:9px!important;
+    line-height:1.05!important;
+  }
+  /* Current / Next stay side-by-side; reduce the tile area and card height by about 10%. */
+  .tiles{
+    padding:7px!important;
+  }
+  .tiles .rows{
+    gap:7px!important;
+  }
+  .tiles b{
+    font-size:11px!important;
+    margin-bottom:3px!important;
+  }
+  .tile-row{
+    gap:3px!important;
+  }
+  .domino{
+    border-radius:7px!important;
+  }
+  .half{
+    height:56px!important;
+    font-size:15px!important;
+  }
+  .half .crowns{
+    font-size:10px!important;
+  }
+  .claimtag{
+    min-height:31px!important;
+    padding:3px 2px!important;
+    font-size:8px!important;
+  }
+}
+@media(max-width:380px){
+  .board{width:59.5vw!important;max-width:280px!important}
+  .half{height:52px!important;font-size:14px!important}
+  .claimtag{min-height:29px!important;font-size:8px!important}
+}
