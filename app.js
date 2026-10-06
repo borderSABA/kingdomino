@@ -1,7 +1,7 @@
 'use strict';
 const GAME_ID='kingdomino';
 const GAME_NAME='KINGDOMINO';
-const APP_VERSION='v0.1.19';
+const APP_VERSION='v0.1.20';
 const WORKER_ORIGIN='https://kingdomino-online.naitoryo7110.workers.dev';
 const COMMON_PLAYER_NAME_KEY='boardgamePlayerName';
 const ROOM_IDS=['room1','room2','room3','room4'];
@@ -127,22 +127,17 @@ function renderMiniBoard(p){
 }
 function sidebarPlayerHtml(p,vp,m){
   const self=p.id===m?.id;
+  const label=`${p.name}・${p.score??0}点`;
   if(self){
     return `<section class='player-block self-block'>
       <button class='player-card self-summary ${p.id===activePlayer()?.id?'active':''} me ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='自分の盤面へ戻る'>
-        <div class='player-card-main'>
-          <b>${esc(p.name)}（自分）</b>
-          <div>${p.score??0}点</div>
-        </div>
+        <div class='player-card-main player-one-line'><b>${esc(label)}</b></div>
       </button>
     </section>`;
   }
   return `<section class='player-block'>
     <button class='player-card player-select ${p.id===activePlayer()?.id?'active':''} ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='${esc(p.name)}の盤面を見る'>
-      <div class='player-card-main'>
-        <b>${esc(p.name)}</b>
-        <div>${p.cpu?'CPU・':''}${p.score??0}点</div>
-      </div>
+      <div class='player-card-main player-one-line'><b>${esc(label)}</b></div>
     </button>
     <button class='mini-board-wrap ${p.id===vp?.id?'viewing':''}' data-view='${p.id}' aria-label='${esc(p.name)}の盤面を見る'>
       ${renderMiniBoard(p)}
@@ -157,7 +152,37 @@ function selectedPlacement(){const m=me(),tile=currentPlacementTile();if(!m||!ti
 function placementScorePreview(){const q=selectedPlacement(),m=me();if(!q||!q.legal||!m)return null;const before=estimateScore(m.board||{});const board=JSON.parse(JSON.stringify(m.board||{}));board[`${q.x},${q.y}`]={terrain:q.tile.a.terrain,crowns:q.tile.a.crowns};board[`${q.x+q.dx},${q.y+q.dy}`]={terrain:q.tile.b.terrain,crowns:q.tile.b.crowns};const after=estimateScore(board);return{before,after,delta:after-before}}
 function previewPlacement(x,y){clearGhost();selectedAnchor={x,y};const q=selectedPlacement();if(!q)return;paintGhostHalf(q.x,q.y,q.tile.a,q.legal);paintGhostHalf(q.x+q.dx,q.y+q.dy,q.tile.b,q.legal);updatePlacementControls()}
 function updatePlacementControls(){const q=selectedPlacement(),score=placementScorePreview(),btn=document.getElementById('confirmPlace'),hint=document.getElementById('placeHint'),scoreEl=document.getElementById('placeScorePreview');if(btn){btn.disabled=!q?.legal;btn.classList.toggle('disabled',!q?.legal)}if(hint){hint.textContent=!q?'配置したいマスをクリックして仮配置してください。':q.legal?'緑のゴースト位置に配置できます。':'赤いゴースト位置には配置できません。回転または別のマスを選んでください。'}if(scoreEl){scoreEl.innerHTML=score?`この配置で <b>+${score.delta}点</b>　現時点の地形得点 <b>${score.after}点</b>`:'仮配置すると、増える点数をここに表示します。'}}
-function bindBoardPlacement(){app.querySelectorAll('.cell.valid').forEach(el=>{const x=+el.dataset.x,y=+el.dataset.y;el.onclick=()=>previewPlacement(x,y)});updatePlacementControls()}
+function bindBoardPlacement(){
+  const cells=[...app.querySelectorAll('.cell.valid')];
+  cells.forEach(el=>{const x=+el.dataset.x,y=+el.dataset.y;el.onclick=()=>previewPlacement(x,y)});
+  const board=app.querySelector('.board');
+  if(board&&window.matchMedia('(max-width:850px)').matches){
+    let dragging=false,lastKey='';
+    const atPoint=(clientX,clientY)=>{
+      const el=document.elementFromPoint(clientX,clientY)?.closest?.('.cell.valid');
+      if(!el||!board.contains(el))return;
+      const x=+el.dataset.x,y=+el.dataset.y,key=`${x},${y}`;
+      if(key===lastKey)return;
+      lastKey=key;previewPlacement(x,y);
+    };
+    board.addEventListener('pointerdown',e=>{
+      if(e.pointerType==='mouse')return;
+      dragging=true;lastKey='';
+      try{board.setPointerCapture(e.pointerId)}catch{}
+      atPoint(e.clientX,e.clientY);
+      e.preventDefault();
+    },{passive:false});
+    board.addEventListener('pointermove',e=>{
+      if(!dragging||e.pointerType==='mouse')return;
+      atPoint(e.clientX,e.clientY);
+      e.preventDefault();
+    },{passive:false});
+    const finish=e=>{if(!dragging)return;dragging=false;try{board.releasePointerCapture(e.pointerId)}catch{};e.preventDefault()};
+    board.addEventListener('pointerup',finish,{passive:false});
+    board.addEventListener('pointercancel',finish,{passive:false});
+  }
+  updatePlacementControls();
+}
 
 function tokenDisplayLabel(token,player){
   if(!token||!player)return'';
